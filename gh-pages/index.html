@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <title>My Profile</title>
+        <style>
+          html{
+            position: absolute;
+            left: 50%;
+            width: 1024px;
+            padding: 10px;
+            border: 2px solid;
+            margin: 10px;
+            box-sizing: border-box;
+            transform: translate(-50%, 0%);
+            background: url("images.jpg");
+          }
+          table{
+            padding:20px;
+          }
+          td {
+            height: 60px;
+            font-size: 38px;
+            font-weight: bold;
+            line-height: 26px;
+          }
+          td[align^='r'] {
+            color: red;
+          }
+          td[align^='l'] {
+            color: blue;
+          }
+          p{
+            padding:0px 20px;
+            font-size: 24px;
+            text-indent: 2em;
+            text-align:justify;
+          }
+          pre{
+            padding:0px 0px 0px 100px;
+            font-family: Courier;
+            text-align:justify;
+          }
+        </style>
+    </head>
+
+    <body align=center>
+      <table border="0" align="center">
+        <tr>
+          <td rowspan="4" width="242px"><img
+            src="ima_ges.jpg"
+            alt="Artes"
+            width="242"
+            height="239"></td>
+          <td align="right">First Name:</td>
+          <td align="left">Sergey</td>
+        </tr>
+        <tr>
+          <td align="right">Last Name:</td>
+          <td align="left">Gritsovets</td>
+        </tr>
+        <tr>
+          <td align="right">Phone number:</td>
+          <td align="left">+375(29)-20*****</td>
+        </tr>
+        <tr>
+          <td align="right">Email:</td>
+          <td align="left">*********98@gmail.com</td>
+        </tr>
+      </table>
+      <hr>
+      <div>
+        <p>Good day. My name is Sergey. I am 20 years old. I am a 4th year student, studying in BSUIR as an
+        <b>engineer-electronics programmer</b>. I have a mathematical mindset.</p>
+        <p>For me, there is and remains the primary task - to help people in general,
+           as well as to benefit the company where I work. If we talk about future plans,
+           I would like to work and study with You in order to become one of the specialists of Your company.</p>
+        <p>I have experience in various computer-aided design systems, such as:
+        <b>AutoCAD, Autodesk Inventor, SolidWorks, T-FLEX CAD, Altium Designer</b>.
+        There are basic knowledge of programming languages, such as:
+        <b>C/C++, C#, Java, VHDL, SQL</b>. There is also knowledge of <b>HTML, CSS</b>.</p>
+      </div>
+      <hr>
+      <p>
+        Code written in language VHDL, which emulates the work of six-digit seven-segment electronic clock:
+      </p>
+      <div>
+        <pre>
+        library IEEE;
+        use IEEE.STD_LOGIC_1164.ALL;
+        use IEEE.STD_LOGIC_ARITH.ALL;
+        use IEEE.STD_LOGIC_UNSIGNED.ALL;
+        ENTITY counter_tbw IS
+        END counter_tbw;
+        ARCHITECTURE behavior OF counter_tbw IS
+        COMPONENT ModuleLR1
+        PORT(CLOCK : IN std_logic;
+        DIRECTION : IN std_logic;
+        S1_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        S2_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        M1_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        M2_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        H1_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        H2_OUT : out STD_LOGIC_VECTOR (6 downto 0));
+        END COMPONENT;
+        signal CLOCK : std_logic := '0';
+        signal DIRECTION : std_logic := '0';
+        signal S1_OUT : std_logic_vector(6 downto 0);
+        signal S2_OUT : std_logic_vector(6 downto 0);
+        signal M1_OUT : std_logic_vector(6 downto 0);
+        signal M2_OUT : std_logic_vector(6 downto 0);
+        signal H1_OUT : std_logic_vector(6 downto 0);
+        signal H2_OUT : std_logic_vector(6 downto 0);
+        constant CLOCK_period : time := 10 ns;
+        BEGIN
+        uut: ModuleLR1 PORT MAP (
+        CLOCK => CLOCK,
+        DIRECTION => DIRECTION,
+        S1_OUT => S1_OUT,
+        S2_OUT => S2_OUT,
+        M1_OUT => M1_OUT,
+        M2_OUT => M2_OUT,
+        H1_OUT => H1_OUT,
+        H2_OUT => H2_OUT);
+        CLOCK_process :process
+        begin
+        CLOCK <= '0';
+        wait for CLOCK_period/2;
+        CLOCK <= '1';
+        wait for CLOCK_period/2;
+        end process;
+        stim_proc: process
+        begin
+        wait for 100 ns;
+        wait for CLOCK_period*10;
+        wait;
+        end process;
+        END;<br>
+
+        entity ModuleLR1 is
+        Port ( CLOCK : in STD_LOGIC;
+        DIRECTION : in STD_LOGIC;
+        S1_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        S2_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        M1_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        M2_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        H1_OUT : out STD_LOGIC_VECTOR (6 downto 0);
+        H2_OUT : out STD_LOGIC_VECTOR (6 downto 0));
+        end ModuleLR1;
+        architecture Behavioral of ModuleLR1 is
+        signal s1 : std_logic_vector (3 downto 0) := "0000";
+        signal s2 : std_logic_vector (3 downto 0) := "0000";
+        signal m1 : std_logic_vector (3 downto 0) := "0000";
+        signal m2 : std_logic_vector (3 downto 0) := "0000";
+        signal h1 : std_logic_vector (3 downto 0) := "0000";
+        signal h2 : std_logic_vector (3 downto 0) := "0000";
+        function decoder (n: std_logic_vector) return std_logic_vector is
+        variable Y : std_logic_vector (6 downto 0) := "0000000";
+        begin
+        if n="0000" then return "1111110";
+        elsif n="0001" then return "0110000";
+        elsif n="0010" then return "1101101";
+        elsif n="0011" then return "1111001";
+        elsif n="0100" then return "0110011";
+        elsif n="0101" then return "1011011";
+        elsif n="0110" then return "1011111";
+        elsif n="0111" then return "1110000";
+        elsif n="1000" then return "1111111";
+        elsif n="1001" then return "1111011";
+        else return "0000000";
+        end if;
+        end decoder;
+        begin
+        process (CLOCK)
+        begin
+        if CLOCK='1' and CLOCK'event then
+        if s1="1001" then
+        s1 <= "0000";
+        s2 <= s2 + 1;
+        else
+        s1 <= s1 + 1;
+        end if;
+        if s2="0101" and s1="1001" then
+        s2 <= "0000";
+        m1 <= m1 + 1;
+        end if;
+        if m1="1001" and s2="0101" and s1="1001" then
+        m1 <= "0000";
+        m2 <= m2 + 1;
+        end if;
+        if m2="0101" and m1="1001" and s2="0101" and s1="1001" then<
+        m2 <= "0000";
+        h1 <= h1 + 1;
+        end if;
+        if h2="0010" then
+        if h1="0011" and m2="0101" and m1="1001" and s2="0101" and s1="1001" then
+        h1 <= "0000";
+        h2 <= "0000";
+        end if;
+        else
+        if h1="1001" and m2="0101" and m1="1001" and s2="0101" and s1="1001" then
+        h1 <= "0000";
+        h2 <= h2 + 1;
+        end if;
+        end if;
+        end if;
+        end process;
+        S1_OUT <= decoder(s1);
+        S2_OUT <= decoder(s2);
+        M1_OUT <= decoder(m1);
+        M2_OUT <= decoder(m2);
+        H1_OUT <= decoder(h1);
+        H2_OUT <= decoder(h2);
+        end Behavioral;
+      </pre>
+      </div>
+      <hr>
+      <div>
+        <p>I recently went to courses on <b>JavaScript</b>.
+        I speak English fluently with Google Translate.</p>
+      </div>
+    </body>
+</html>
